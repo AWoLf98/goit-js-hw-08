@@ -89,7 +89,7 @@ gallery.addEventListener('click', item => {
   );
 
   instance.show();
-  //подію є закриття є сенс слухати тільки якщо зроблено клік
+  //подію закриття є сенс слухати тільки якщо зроблено клік
   document.addEventListener('keyup', ({ code }) => {
     console.log(code);
     if (code !== 'Escape') {
