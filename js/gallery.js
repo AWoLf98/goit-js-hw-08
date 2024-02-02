@@ -50,8 +50,6 @@ const images = [
 
 const gallery = document.body.querySelector('ul.gallery');
 
-console.log(gallery);
-
 gallery.append(
   ...images.map(({ preview, original, description }) => {
     preview = preview.slice(1, -1);
@@ -76,3 +74,28 @@ gallery.append(
     return li;
   })
 );
+
+gallery.addEventListener('click', item => {
+  item.preventDefault();
+
+  //продемонстрований на лекції item.target === item.target.currentTarget - не спрацює
+  //він не захистить від кліків наприклад пробілу чи Tab, а зображення всеодно займає всю область.
+  if (item.target.nodeName !== 'IMG') {
+    return;
+  }
+
+  const instance = basicLightbox.create(
+    `<img src="${item.target.dataset.source}" alt='${item.target.alt}' width="1112" height="640">`
+  );
+
+  instance.show();
+  //подію є сенс слухати тільки якщо зроблено клік
+  document.addEventListener('keyup', ({ code }) => {
+    console.log(code);
+    if (code !== 'Escape') {
+      return;
+    }
+
+    instance.close();
+  });
+});
